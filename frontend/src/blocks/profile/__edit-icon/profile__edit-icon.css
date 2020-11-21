@@ -1,0 +1,12 @@
+.profile__edit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.profile__edit-icon:hover {
+  visibility: visible;
+}

@@ -1,0 +1,12 @@
+.login__redirect_button {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  margin-top: 15px;
+}
+
+.login__redirect_button:hover {
+  opacity: 60%;
+}

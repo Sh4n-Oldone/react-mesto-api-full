@@ -1,0 +1,19 @@
+.info-tooltip__subtitle {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  margin: 0 0 60px;
+  padding: 0;
+}
+
+@media screen and (max-width: 545px) {
+  .info-tooltip__subtitle {
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0 0 50px;
+  }
+}

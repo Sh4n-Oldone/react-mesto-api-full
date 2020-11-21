@@ -1,0 +1,20 @@
+.popup {
+  position: fixed;
+  max-width: 882px;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.4s, opacity .4s linear;
+}
+
+.popup::before {
+  content: '';
+  background: #000000;
+  opacity: 0.5;
+  position: absolute;
+  width: 100vw;
+  margin-left: -50vw;
+  height: 100vh;
+  left: 50%;
+}

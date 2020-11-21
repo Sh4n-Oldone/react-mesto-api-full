@@ -1,0 +1,40 @@
+{
+  "name": "express-mesto",
+  "version": "1.0.0",
+  "description": "Личный API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sh4n-Oldone/express-mesto.git"
+  },
+  "keywords": [],
+  "author": "Alex Pavlov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sh4n-Oldone/express-mesto/issues"
+  },
+  "homepage": "/",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^13.0.4",
+    "express": "^4.17.1",
+    "express-winston": "^4.0.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.10",
+    "validator": "^13.1.17",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "nodemon": "^2.0.6"
+  }
+}

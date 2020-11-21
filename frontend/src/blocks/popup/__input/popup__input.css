@@ -1,0 +1,10 @@
+.popup__input {
+  border: 0;
+  border-bottom: 1px solid #bbbbbb;
+  outline: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  padding: 0 0 10px;
+}

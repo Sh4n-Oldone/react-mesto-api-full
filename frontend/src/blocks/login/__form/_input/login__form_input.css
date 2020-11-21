@@ -1,0 +1,21 @@
+.login__form_input {
+  width: 100%;
+  height: 27px;
+  color: #FFFFFF;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  border-bottom: 1px solid #FFFFFF;
+}
+
+.login__form_input:focus {
+  outline: none;
+}
+
+@media screen and (max-width:400px){
+  .login__form_input {
+    width: 98%;
+  }
+}

@@ -1,0 +1,21 @@
+.login__form_button {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #000000;
+  background-color: #FFFFFF;
+  border-radius: 2px;
+  width: 100%;
+  height: 50px;
+}
+
+.login__form_button:hover {
+  opacity: 60%;
+}
+
+.login__form_button:active {
+  opacity: 100%;
+}

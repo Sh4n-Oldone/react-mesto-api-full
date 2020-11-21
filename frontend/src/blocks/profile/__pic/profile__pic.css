@@ -1,0 +1,22 @@
+.profile__pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile__pic:hover {
+  filter: brightness(20%);
+  cursor: pointer;
+}
+
+.profile__pic:hover + .profile__edit-icon {
+  visibility: visible;
+}
+
+@media screen and (max-width: 650px) {
+  .profile__pic {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}

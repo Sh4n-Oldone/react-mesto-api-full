@@ -1,0 +1,22 @@
+.info-tooltip__container {
+  position: relative;
+  display: flex;
+  margin: auto;
+  top: 20%;
+  background-color: #ffffff;
+  max-width: 360px;
+  width: 100%;
+  padding: 0 36px;
+  border-radius: 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media screen and (max-width: 545px) {
+  .info-tooltip__container {
+    max-width: 280px;
+    padding: 10px;
+    top: 15%;
+  }
+}
