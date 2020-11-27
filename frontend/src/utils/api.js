@@ -124,8 +124,8 @@ class Api {
 }
 const token = getToken();
 const myApi = new Api({
-  userUrl: 'https://alexpavlov.students.nomoreparties.space/users/me',
-  cardsUrl: 'https://alexpavlov.students.nomoreparties.space/cards',
+  userUrl: 'https://api.alexpavlov.students.nomoreparties.space/users/me',
+  cardsUrl: 'https://api.alexpavlov.students.nomoreparties.space/cards',
   headers: {
     'Content-Type': 'application/json',
     authorization: `Bearer ${token}`

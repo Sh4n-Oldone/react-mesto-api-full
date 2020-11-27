@@ -32,6 +32,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
+app.options('*', cors());
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({

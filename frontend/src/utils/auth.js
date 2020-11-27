@@ -1,6 +1,6 @@
 import { setToken } from '../utils/token';
 
-export const BASE_URL = 'https://alexpavlov.students.nomoreparties.space';
+export const BASE_URL = 'https://api.alexpavlov.students.nomoreparties.space';
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {

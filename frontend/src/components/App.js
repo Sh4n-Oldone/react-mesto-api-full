@@ -163,7 +163,6 @@ export default function App() {
   function apiRegister(password, email) {
     auth.register(password, email)
       .then((data) => {
-        console.log(data);
         if (data.error) {
           setRegistrationErrorStatus(true);
           handleInfoTooltipOpen();
@@ -223,7 +222,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log('Рендер страницы!');
     if(loggedIn === true){
       getTheData();
     }
