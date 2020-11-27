@@ -1,23 +1,26 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function AddPlacePopup({isOpen, onClose, handleNewPlace}) {
 
-  const refInputName = useRef(null)
-  const refInputUrl = useRef(null)
+  const [place, setPlace] = useState('');
+  const [placeLink, setPlaceLink] = useState('');
+
+  const handlePlaceInput = (event) => {setPlace(event.target.value)}
+  const handlePlaceLinkInput = (event) => {setPlaceLink(event.target.value)}
 
   const handleSubmit = (event) => {
     event.preventDefault();
     handleNewPlace({
-      name: refInputName.current.value,
-      link: refInputUrl.current.value
+      name: place,
+      link: placeLink
     });
   }
 
   useEffect(() => {
     if (isOpen === false) {
-      refInputName.current.value = '';
-      refInputUrl.current.value = '';
+      setPlace('');
+      setPlaceLink('');
     }
   }, [isOpen])
 
@@ -33,24 +36,24 @@ export default function AddPlacePopup({isOpen, onClose, handleNewPlace}) {
         className='popup__input_type_error input_name_error-message'
       />
       <input
-        ref={refInputName}
+        value={place || ''}
         type='text'
         name='name'
-        defaultValue={''}
         placeholder='Название'
         className='popup__input popup__input_name'
         minLength='1'
         maxLength='30'
+        onChange={handlePlaceInput}
         required
       />
       <small className='popup__input_type_error input_title_error-message'/>
       <input
-        ref={refInputUrl}
+        value={placeLink || ''}
         type='url'
         name='link'
-        defaultValue={''}
         placeholder='Ссылка на карточку'
         className='popup__input popup__input_title'
+        onChange={handlePlaceLinkInput}
         required
       />
     </PopupWithForm>

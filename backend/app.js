@@ -1,13 +1,17 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-require('dotenv').config();
-const { urlencoded } = require('express');
+const bodyParser = require('body-parser');
+// const { urlencoded } = require('express');
 const { errors, celebrate, Joi } = require('celebrate');
 const { errorLogger } = require('express-winston');
+const cors = require('cors');
 const routes = require('./routes/index.js');
 const { login, createUser } = require('./controllers/users');
 const { requestLogger } = require('./middlewares/logger.js');
+const auth = require('./middlewares/auth.js');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -18,6 +22,16 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+// app.use(urlencoded({ extended: true }));
+// app.use(express.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cors());
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -32,10 +46,7 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-app.use(urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(auth);
 
 app.use(requestLogger);
 
@@ -58,3 +69,5 @@ app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`Работаю! Порт: ${PORT}`);
 });
+
+module.exports = app;

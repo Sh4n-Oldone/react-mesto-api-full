@@ -40,32 +40,8 @@ export default function App() {
   const history = useHistory();
   const [registrationErrorStatus, setRegistrationErrorStatus] = useState(false);
 
-  useEffect(() => {
-    tokenCheck();
-  }, []);
-
-  useEffect(() => {
-    Promise.all([
-      myApi.getUserData(),
-      myApi.getCardsData()
-    ])
-      .then((res) => {
-        const [profileData, cardsData] = res;
-        setCurrentUser({
-          name: profileData.name,
-          description: profileData.about,
-          avatar: profileData.avatar,
-          _id: profileData._id
-        });
-        setCards(cardsData);
-      })
-      .catch((error) => {
-        console.log('Я получал данные о профиле и карточках. Я сломался. Ошибка: ' + error)
-      });
-  }, []);
-
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     myApi.changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         const newCards = cards.map((c) => c._id === card._id ? newCard : c);
@@ -79,8 +55,8 @@ export default function App() {
   function handleCardDelete(card) {
     myApi.removeCard(card._id)
       .then(() => {
-        const newCards = cards.filter(item => card._id !== item._id);
-        setCards(newCards);
+          const newCards = cards.filter(item => card._id !== item._id);
+          setCards(newCards);
       })
       .catch((error) => {
         console.log('Я удалял карточку. Я сломался. Ошибка: ' + error)
@@ -178,7 +154,7 @@ export default function App() {
       return auth.getContent(jwt)
               .then((res) => {
                 setLoggedIn(true);
-                setUserData({email: res.data.email});
+                setUserData({email: res.email});
                 history.push('/');
               });
     }
@@ -187,6 +163,7 @@ export default function App() {
   function apiRegister(password, email) {
     auth.register(password, email)
       .then((data) => {
+        console.log(data);
         if (data.error) {
           setRegistrationErrorStatus(true);
           handleInfoTooltipOpen();
@@ -195,7 +172,7 @@ export default function App() {
           setRegistrationErrorStatus(true);
           handleInfoTooltipOpen();
         }
-        if (data.data._id) {
+        if (data && !data.error) {
           history.push('/sign-in');
           setRegistrationErrorStatus(false);
           handleInfoTooltipOpen();
@@ -203,6 +180,7 @@ export default function App() {
       })
       .catch(err => console.log(err))
   }
+
 
   function apiLoginCheck (email, password, userData) {
     auth.authorize(email, password)
@@ -219,6 +197,38 @@ export default function App() {
       })
       .catch(err => console.log(err))
   }
+ 
+  async function getTheData() {
+    try {
+      await myApi.getUserData().then((profileData) => {
+        setCurrentUser({
+          name: profileData.name,
+          description: profileData.about,
+          avatar: profileData.avatar,
+          _id: profileData._id
+        });
+      });
+
+      await myApi.getCardsData().then((cardsData) => {
+        setCards(cardsData);
+      });
+
+    } catch (error) {
+      console.log('Я получал данные о профиле и карточках. Я сломался. Ошибка: ' + error)
+    }
+  }
+
+  useEffect(() => {
+    tokenCheck();
+  }, []);
+
+  useEffect(() => {
+    console.log('Рендер страницы!');
+    if(loggedIn === true){
+      getTheData();
+    }
+    
+  }, [loggedIn]);
 
   return (
     <div className='App'>
@@ -240,6 +250,7 @@ export default function App() {
                     onRemoveClickPopup={handleRemoveCardClickPopupOpen}
                     onLikeClick={handleCardLike}
                     onDeleteClick={handleCardDelete}
+                    currentUser={currentUser}
                   />
 
                   <Route path='/sign-up'>

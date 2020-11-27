@@ -1,19 +1,21 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
 
-  const refInput = useRef(null)
+  const [avatar, setAvatar] = useState('')
+  const handleAvatarInput = (event) => {setAvatar(event.target.value)}
+
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateAvatar({
-      avatar: refInput.current.value
+      avatar: avatar
     });
   }
 
   useEffect(() => {
     if (isOpen === false) {
-      refInput.current.value = '';
+      setAvatar('');
     }
   }, [isOpen])
 
@@ -29,12 +31,12 @@ export default function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
         className='popup__input_type_error input_title_error-message'
       />
       <input
-        ref={refInput}
+        value={avatar || ''}
         type='url'
         name='avatar'
-        defaultValue={''}
         placeholder='Ссылка на аватар'
         className='popup__input popup__input_title'
+        onChange={handleAvatarInput}
         required
       />
     </PopupWithForm>

@@ -8,7 +8,6 @@
     "url": "git+https://Sh4n-Oldone.github.io/mesto-react-auth.git"
   },
   "private": true,
-  "homepage": "https://sh4n-oldone.github.io/react-mesto-auth/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -20,7 +19,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "npm run build && scp -r ./build/* praktikum@84.201.157.153:/home/praktikum/mesto-frontend",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

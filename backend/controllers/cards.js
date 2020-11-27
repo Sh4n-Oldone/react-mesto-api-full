@@ -3,7 +3,7 @@ const NotAuthorizeError = require('../errors/notAuthorizeError');
 const Card = require('../models/card');
 
 module.exports.getCards = (req, res, next) => {
-  Card.find({})
+  Card.find({}).sort({ createAt: -1 })
     .then((cards) => {
       if (!cards) {
         throw new NotFoundError('Карточки отсутствуют');
@@ -18,17 +18,19 @@ module.exports.createCard = (req, res, next) => {
   const owner = req.user._id;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(200).send({ message: `Карточка ${card} создана` }))
+    .then((card) => res.status(200).send(card))
     .catch(next);
 };
 
 module.exports.removeCard = (req, res, next) => {
-  Card.findOne({ _id: req.params.cardId })
+  const chosenCard = req.params.cardId;
+  Card.findOne({ _id: chosenCard })
     .then((card) => {
       if (card) {
-        if (card.owner._id === req.user._id) {
-          Card.deleteOne(card);
-          return res.status(200).send({ message: 'Карточка удалена' });
+        // eslint-disable-next-line eqeqeq
+        if (card.owner._id == req.user._id) {
+          return Card.deleteOne({ _id: chosenCard }).then(() => res.status(200).send({ message: 'Карточка удалена' }));
+          // Card.deleteOne(card);
         }
         throw new NotAuthorizeError('Ошибка авторизации');
       }
@@ -56,7 +58,7 @@ module.exports.putLikeCard = async (req, res, next) => {
     if (!likingCard) {
       throw new NotFoundError('Карточка не найдена');
     }
-    return res.status(200).send({ message: 'Лайк поставлен успешно' });
+    return res.status(200).send(likingCard);
   } catch (err) {
     return next(err);
   }
@@ -70,7 +72,7 @@ module.exports.dislikeCard = async (req, res, next) => {
     if (!dislikingCard) {
       throw new NotFoundError('Карточка не найдена');
     }
-    return res.status(200).send({ message: 'Лайк снят успешно' });
+    return res.status(200).send(dislikingCard);
   } catch (err) {
     return next(err);
   }

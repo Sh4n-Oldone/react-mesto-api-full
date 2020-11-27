@@ -1,10 +1,13 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundError');
-const { JWT_SECRET } = process.env;
+const NotAllowToCreateUser = require('../errors/notAllowToCreateUser');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
-  User.find({}).select('+password')
+  User.find({})
     .then((users) => {
       if (users) {
         return res.status(200).send(users);
@@ -15,7 +18,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  User.findOne({ _id: req.params.userId }).select('+password')
+  User.findOne({ _id: req.params.userId })
     .then((user) => {
       if (user) {
         return res.status(200).send(user);
@@ -27,13 +30,20 @@ module.exports.getUser = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    email, password, name, about, avatar,
+    email, password,
   } = req.body;
-
-  User.create({
-    email, password, name, about, avatar,
-  })
-    .then((user) => res.status(200).send({ message: `Пользователь ${user.email} создан` }))
+  User.findOne({ email })
+    .then((user) => {
+      if (user) { throw new NotAllowToCreateUser('Ошибка создания пользователя'); }
+      if (!user) {
+        bcrypt.hash(password, 10)
+          .then((hash) => User.create({
+            email, password: hash,
+          }))
+          .then((newUser) => res.status(200).send({ message: `Пользователь ${newUser.email} создан` }))
+          .catch(next);
+      }
+    })
     .catch(next);
 };
 
@@ -47,7 +57,7 @@ module.exports.updateUser = async (req, res, next) => {
     if (!updatedUser) {
       throw new NotFoundError('Пользователь не обнаружен');
     }
-    return res.status(200).send({ message: `Профиль обновлён ${updatedUser}` });
+    return res.status(200).send(updatedUser);
   } catch (err) {
     return next(err);
   }
@@ -63,7 +73,7 @@ module.exports.updateUserAvatar = async (req, res, next) => {
     if (!updatedUser) {
       throw new NotFoundError('Пользователь не обнаружен');
     }
-    return res.status(200).send({ message: `Аватар обновлён ${updatedUser}` });
+    return res.status(200).send(updatedUser);
   } catch (err) {
     return next(err);
   }
@@ -74,12 +84,8 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
-
-      res.cookie('access_token', token, {
-        httpOnly: true,
-        expires: '7d',
-      });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      res.send({ token });
     })
     .catch(next);
 };

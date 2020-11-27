@@ -14,8 +14,6 @@ export const profileAvatar = document.querySelector('.profile__pic');
 
 export const cardsList = document.querySelector('.cards__list'); // список карточек
 
-export const owner = 'ed99dd7809a559eac419471a';
-
 export const validationSelectors = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

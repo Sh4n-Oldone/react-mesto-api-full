@@ -1,3 +1,5 @@
+import { getToken } from './token';
+
 class Api {
   constructor(options) {
     this._userUrl = options.userUrl;
@@ -10,7 +12,7 @@ class Api {
       headers: this._headers
     })
     .then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -22,7 +24,7 @@ class Api {
       headers: this._headers
     })
     .then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -38,7 +40,7 @@ class Api {
         about: data.about
       })
     }).then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -54,7 +56,7 @@ class Api {
         link: data.link
       })
     }).then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -66,7 +68,7 @@ class Api {
       method: 'DELETE',
       headers: this._headers
     }).then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -74,11 +76,11 @@ class Api {
   }
 
   putLike(_id) {
-    return fetch(this._cardsUrl + '/likes/' + _id, {
+    return fetch(this._cardsUrl + '/' + _id + '/likes', {
       method: 'PUT',
       headers: this._headers
     }).then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -86,11 +88,11 @@ class Api {
   }
 
   removeLike(_id) {
-    return fetch(this._cardsUrl + '/likes/' + _id, {
+    return fetch(this._cardsUrl + '/' + _id + '/likes', {
       method: 'DELETE',
       headers: this._headers
     }).then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -113,20 +115,20 @@ class Api {
         avatar: data.avatar
       })
     }).then(res => {
-      if (res.ok) {
+      if (res.status === 200) {
         return res.json();
       }
       return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
 }
-
+const token = getToken();
 const myApi = new Api({
-  userUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/users/me',
-  cardsUrl: 'https://mesto.nomoreparties.co/v1/cohort-14/cards',
+  userUrl: 'https://alexpavlov.students.nomoreparties.space/users/me',
+  cardsUrl: 'https://alexpavlov.students.nomoreparties.space/cards',
   headers: {
-    authorization: '14950384-2a2e-482b-8250-dfb0e0c885f3',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    authorization: `Bearer ${token}`
   }
 });
 

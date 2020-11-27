@@ -41,7 +41,7 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       <small className='popup__input_type_error input_name_error-message'/>
       <input type='text'
              name={'profile'}
-             value={name}
+             value={name || ''}
              placeholder='Ваше имя'
              className='popup__input popup__input_name'
              minLength='2'
@@ -52,7 +52,7 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       <small className='popup__input_type_error input_title_error-message'/>
       <input type='text'
              name={'Редактировать профиль'}
-             value={description}
+             value={description || ''}
              placeholder='Ваша работа'
              className='popup__input popup__input_title'
              minLength='2'

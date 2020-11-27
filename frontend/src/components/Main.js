@@ -11,7 +11,8 @@ export default function Main({
   onCardClick, 
   onRemoveClickPopup, 
   onLikeClick, 
-  onDeleteClick}) {
+  onDeleteClick,
+  currentUser}) {
 
   return (
 
@@ -53,6 +54,7 @@ export default function Main({
                       onRemoveClickPopup={onRemoveClickPopup}
                       onLikeClick={onLikeClick}
                       onDeleteClick={onDeleteClick}
+                      currentUser={currentUser}
                 />
               )}
             </ul>

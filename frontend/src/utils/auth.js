@@ -1,6 +1,6 @@
 import { setToken } from '../utils/token';
 
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://alexpavlov.students.nomoreparties.space';
 
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
@@ -19,8 +19,11 @@ export const register = (password, email) => {
       console.log('Некорректно заполнено одно из полей при регистрации');
       return error;
     }
+    if (res.status === 401) {
+      const error = {error: 'ошибка'};
+      return error;
+    }
     if (res.status !== 200 || res.status !== 201) {
-      console.log(res.status);
       return res.json();
     }
   })
