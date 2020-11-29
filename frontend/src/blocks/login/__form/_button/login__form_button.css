@@ -10,12 +10,13 @@
   border-radius: 2px;
   width: 100%;
   height: 50px;
+  opacity: 1;
 }
 
 .login__form_button:hover {
-  opacity: 60%;
+  opacity: 0.6;
 }
 
 .login__form_button:active {
-  opacity: 100%;
+  opacity: 1;
 }
