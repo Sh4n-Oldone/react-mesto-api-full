@@ -5,13 +5,13 @@ import CurrentUserContext from "../context/CurrentUserContext";
 export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
 
   const [name, setName] = React.useState('Жак-Ив Кусто')
-  const [description, setDescription] = React.useState('Исследователь океана')
+  const [about, setAbout] = React.useState('Исследователь океана')
 
   const currentUser = useContext(CurrentUserContext)
 
   useEffect(() => {
     setName(currentUser.name);
-    setDescription(currentUser.description);
+    setAbout(currentUser.description);
   }, [currentUser]);
 
   const handleInputName = (event) => {
@@ -19,14 +19,14 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
   }
 
   const handleInputDescription = (event) => {
-    setDescription(event.target.value)
+    setAbout(event.target.value)
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateUser({
       name: name,
-      about: description
+      about: about,
     })
   }
 
@@ -52,7 +52,7 @@ export default function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       <small className='popup__input_type_error input_title_error-message'/>
       <input type='text'
              name={'Редактировать профиль'}
-             value={description || ''}
+             value={about || ''}
              placeholder='Ваша работа'
              className='popup__input popup__input_title'
              minLength='2'

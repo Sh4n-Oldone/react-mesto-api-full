@@ -93,7 +93,7 @@ module.exports.login = (req, res, next) => {
 module.exports.getMe = (req, res, next) => {
   const { _id } = req.user;
 
-  User.findOne({ _id }).select('+password')
+  User.findOne({ _id })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь не обнаружен');

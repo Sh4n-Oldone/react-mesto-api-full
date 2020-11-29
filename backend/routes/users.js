@@ -5,8 +5,12 @@ const {
 } = require('../controllers/users');
 
 usersRouter.get('/users', getUsers);
-usersRouter.get('/users/me', getMe);
-usersRouter.get('/users/:userId', getUser);
+usersRouter.get('/users/me', getMe); // нечего валидировать, это пустой get-запрос с проверкой авторизации
+usersRouter.get('/users/:userId', celebrate({
+  params: Joi.object().keys({
+    userId: Joi.string().hex().max(24),
+  }),
+}), getUser);
 usersRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
     user: Joi.object(),
